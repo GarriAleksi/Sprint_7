@@ -12,8 +12,9 @@ public class CourierForAuthWithoutPassword {
     private String login;
     private String password = ""; // Устанавливаем пустую строку по умолчанию
 
+    // Конструктор, который инициализирует поле login из объекта Courier
     public CourierForAuthWithoutPassword(Courier courier) {
         this.login = courier.getLogin();
-        // Здесь password не устанавливается, что может быть причиной проблем
+        // Поле password намеренно оставлено пустым
     }
 }

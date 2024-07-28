@@ -10,6 +10,10 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class CourierForAuth {
+
+    /** Логин курьера */
     private String login;
+
+    /** Пароль курьера */
     private String password;
 }

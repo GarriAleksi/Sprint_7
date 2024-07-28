@@ -12,60 +12,49 @@ import ru.yandex.practicum.model.courier.courierForAuth.CourierForAuthWithoutLog
 import ru.yandex.practicum.model.courier.courierForAuth.CourierForAuthWithoutPassword;
 
 public class CourierClient extends Client {
-    private final static String ROOT = "/courier";
+    private static final String ROOT = "/courier";
     private static final String LOGIN = "/login";
 
     @Step("Создание курьера")
-    public Response create(Courier courier) {
-        return spec()
-                .body(courier)
-                .when()
-                .post(ROOT);
+    public Response create(final Courier courier) {
+        return postRequest(ROOT, courier);
     }
 
     @Step("Создание курьера без поля password")
-    public Response createWithoutPassword(CourierWithoutPassword courierWithoutPassword) {
-        return spec()
-                .body(courierWithoutPassword)
-                .when()
-                .post(ROOT);
+    public Response createWithoutPassword(final CourierWithoutPassword courierWithoutPassword) {
+        return postRequest(ROOT, courierWithoutPassword);
     }
 
     @Step("Создание курьера без поля login")
-    public Response createWithoutLogin(CourierWithoutLogin courierWithoutLogin) {
-        return spec()
-                .body(courierWithoutLogin)
-                .when()
-                .post(ROOT);
+    public Response createWithoutLogin(final CourierWithoutLogin courierWithoutLogin) {
+        return postRequest(ROOT, courierWithoutLogin);
     }
 
     @Step("Авторизация курьера")
-    public Response login(CourierForAuth courierForAuth) {
-        return spec()
-                .body(courierForAuth)
-                .when()
-                .post(ROOT + LOGIN);
+    public Response login(final CourierForAuth courierForAuth) {
+        return postRequest(ROOT + LOGIN, courierForAuth);
     }
 
     @Step("Авторизация без поля login")
-    public Response loginWithoutLogin(CourierForAuthWithoutLogin courierForAuthWithoutLogin) {
-        return spec()
-                .body(courierForAuthWithoutLogin)
-                .when()
-                .post(ROOT + LOGIN);
+    public Response loginWithoutLogin(final CourierForAuthWithoutLogin courierForAuthWithoutLogin) {
+        return postRequest(ROOT + LOGIN, courierForAuthWithoutLogin);
     }
 
     @Step("Авторизация без поля password")
-    public Response loginWithoutPassword(CourierForAuthWithoutPassword courierForAuthWithoutPassword) {
-        return spec()
-                .body(courierForAuthWithoutPassword)
-                .when()
-                .post(ROOT + LOGIN);
+    public Response loginWithoutPassword(final CourierForAuthWithoutPassword courierForAuthWithoutPassword) {
+        return postRequest(ROOT + LOGIN, courierForAuthWithoutPassword);
     }
 
     @Step("Удаление курьера")
-    public Response deleteCourier(Integer courierId) {
+    public Response deleteCourier(final Integer courierId) {
         return spec()
                 .delete(ROOT + String.format("/%d", courierId));
+    }
+
+    private Response postRequest(final String url, final Object body) {
+        return spec()
+                .body(body)
+                .when()
+                .post(url);
     }
 }

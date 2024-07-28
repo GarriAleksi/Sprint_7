@@ -6,20 +6,17 @@ import ru.yandex.practicum.client.Client;
 import ru.yandex.practicum.model.order.Order;
 
 public class OrderClient extends Client {
-    private final static String ROOT = "/orders";
-    private final static String CANCEL = "/cancel";
-    private final static String TRACK = "/track";
+    private static final String ROOT = "/orders";
+    private static final String CANCEL = "/cancel";
+    private static final String TRACK = "/track";
 
     @Step("Создание заказа")
-    public Response createOrder(Order order) {
-        return spec()
-                .body(order)
-                .when()
-                .post(ROOT);
+    public Response createOrder(final Order order) {
+        return postRequest(ROOT, order);
     }
 
     @Step("Завершение заказа")
-    public Response cancelOrder(Integer id) {
+    public Response cancelOrder(final Integer id) {
         return spec()
                 .queryParam("track", id)
                 .put(ROOT + CANCEL);
@@ -27,12 +24,11 @@ public class OrderClient extends Client {
 
     @Step("Получение списка заказов")
     public Response getOrders() {
-        return spec()
-                .get(ROOT);
+        return getRequest(ROOT);
     }
 
     @Step("Получение заказа по номеру")
-    public Response getOrderByNumber(Integer trackId) {
+    public Response getOrderByNumber(final Integer trackId) {
         return spec()
                 .queryParam("t", trackId)
                 .get(ROOT + TRACK);
@@ -40,7 +36,18 @@ public class OrderClient extends Client {
 
     @Step("Получение заказа без номера")
     public Response getOrderByNumberWithoutNumber() {
+        return getRequest(ROOT + TRACK);
+    }
+
+    private Response postRequest(final String url, final Object body) {
         return spec()
-                .get(ROOT + TRACK);
+                .body(body)
+                .when()
+                .post(url);
+    }
+
+    private Response getRequest(final String url) {
+        return spec()
+                .get(url);
     }
 }
